@@ -555,17 +555,17 @@ O FullCalendar usa suas próprias variáveis CSS. O override é feito em `tokens
 Escritos com Vitest + `@vue/test-utils` após os composables estarem implementados.
 
 **`useAuth`**
-- [ ] Salva token e usuário no store após login bem-sucedido
-- [ ] Limpa store após logout
+- [x] Salva token e usuário no store após login bem-sucedido
+- [x] Limpa store após logout
 
 **`useBookings`**
-- [ ] Lança erro de validação quando `startTime` está no passado
-- [ ] Lança erro de validação quando `startTime >= endTime`
-- [ ] Chama `booking.service` com os dados corretos em criação bem-sucedida
+- [x] Lança erro de validação quando `startTime` está no passado
+- [x] Lança erro de validação quando `startTime >= endTime`
+- [x] Chama `booking.service` com os dados corretos em criação bem-sucedida
 
 **`useCalendar`**
-- [ ] Mapeia corretamente `Booking[]` para o formato de eventos do FullCalendar
-- [ ] Aplica cor correta por sala
+- [x] Mapeia corretamente `Booking[]` para o formato de eventos do FullCalendar
+- [x] Aplica cor correta por sala
 
 ### Etapa 10 — Finalização
 
