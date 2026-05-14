@@ -511,9 +511,9 @@ O FullCalendar usa suas próprias variáveis CSS. O override é feito em `tokens
 
 ### Etapa 4 — Router e navigation guard
 
-- [ ] Configurar rotas em `router/index.ts` (`/login`, `/rooms`, `/bookings`, `/calendar`)
-- [ ] Implementar navigation guard que verifica token no `auth.store` antes de cada rota protegida
-- [ ] Redirecionar para `/login` quando não autenticado
+- [x] Configurar rotas em `router/index.ts` (`/login`, `/rooms`, `/bookings`, `/calendar`)
+- [x] Implementar navigation guard que verifica token no `auth.store` antes de cada rota protegida
+- [x] Redirecionar para `/login` quando não autenticado
 
 ### Etapa 5 — Feature: auth
 

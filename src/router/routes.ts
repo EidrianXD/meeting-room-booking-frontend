@@ -1,17 +1,40 @@
 import type { RouteRecordRaw } from "vue-router";
 
-// Rotas reais serão adicionadas nas etapas seguintes (login, rooms, bookings, calendar).
 const routes: RouteRecordRaw[] = [
   {
-    path: "/",
-    component: () => import("@/layouts/MainLayout.vue"),
-    children: [{ path: "", name: "home", component: () => import("@/pages/IndexPage.vue") }],
+    path: "/login",
+    name: "login",
+    component: () => import("@/pages/LoginPage.vue"),
+    meta: { requiresAuth: false },
   },
 
-  // Fallback 404
+  {
+    path: "/",
+    component: () => import("@/layouts/AuthenticatedLayout.vue"),
+    meta: { requiresAuth: true },
+    children: [
+      { path: "", redirect: { name: "rooms" } },
+      {
+        path: "rooms",
+        name: "rooms",
+        component: () => import("@/pages/RoomsPage.vue"),
+      },
+      {
+        path: "bookings",
+        name: "bookings",
+        component: () => import("@/pages/BookingsPage.vue"),
+      },
+      {
+        path: "calendar",
+        name: "calendar",
+        component: () => import("@/pages/CalendarPage.vue"),
+      },
+    ],
+  },
+
   {
     path: "/:catchAll(.*)*",
-    component: () => import("@/pages/IndexPage.vue"),
+    redirect: { name: "rooms" },
   },
 ];
 
