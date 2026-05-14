@@ -517,12 +517,12 @@ O FullCalendar usa suas próprias variáveis CSS. O override é feito em `tokens
 
 ### Etapa 5 — Feature: auth
 
-- [ ] Implementar `auth.service.ts` com `POST /auth/login`
-- [ ] Implementar `auth.store.ts` com estado do usuário e token, persistido em `localStorage`
-- [ ] Criar `src/boot/auth.ts` para hidratar a store com o token salvo no `localStorage`
-- [ ] Implementar `useAuth.ts` com lógica de login e logout
-- [ ] Implementar `LoginForm.vue` com validação e feedback de erro
-- [ ] Implementar `LoginPage.vue` orquestrando o formulário
+- [x] Implementar `auth.service.ts` com `POST /auth/login`
+- [x] Implementar `auth.store.ts` com estado do usuário e token, persistido em `localStorage`
+- [x] Criar `src/boot/auth.ts` para hidratar a store com o token salvo no `localStorage`
+- [x] Implementar `useAuth.ts` com lógica de login e logout
+- [x] Implementar `LoginForm.vue` com validação e feedback de erro
+- [x] Implementar `LoginPage.vue` orquestrando o formulário
 
 ### Etapa 6 — Feature: rooms
 

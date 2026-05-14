@@ -1,14 +1,17 @@
 <template>
-  <q-page class="login-page">
+  <div class="login-page">
     <div class="login-page__card">
-      <h1 class="text-heading-xl">Entrar</h1>
-      <p class="text-body">Formulário implementado na Etapa 5.</p>
+      <header class="login-page__header">
+        <h1 class="text-heading-xl">Entrar</h1>
+        <p class="text-caption">Use suas credenciais para acessar o sistema.</p>
+      </header>
+      <LoginForm />
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script setup lang="ts">
-// Placeholder. Conteúdo real (LoginForm + useAuth) entra na Etapa 5.
+import LoginForm from "@/features/auth/components/LoginForm.vue";
 </script>
 
 <style scoped>
@@ -30,6 +33,12 @@
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-5);
+}
+
+.login-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 </style>

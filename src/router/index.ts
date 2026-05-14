@@ -7,12 +7,7 @@ import {
 } from "vue-router";
 
 import routes from "./routes";
-import { TOKEN_STORAGE_KEY } from "@/shared/http";
-
-function hasValidToken(): boolean {
-  if (typeof window === "undefined") return false;
-  return Boolean(window.localStorage.getItem(TOKEN_STORAGE_KEY));
-}
+import { useAuthStore } from "@/features/auth/store/auth.store";
 
 export default defineRouter(function () {
   const createHistory = process.env.SERVER
@@ -28,14 +23,14 @@ export default defineRouter(function () {
   });
 
   Router.beforeEach((to) => {
+    const auth = useAuthStore();
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth === true);
-    const authenticated = hasValidToken();
 
-    if (requiresAuth && !authenticated) {
+    if (requiresAuth && !auth.isAuthenticated) {
       return { name: "login", query: { redirect: to.fullPath } };
     }
 
-    if (to.name === "login" && authenticated) {
+    if (to.name === "login" && auth.isAuthenticated) {
       return { name: "rooms" };
     }
 

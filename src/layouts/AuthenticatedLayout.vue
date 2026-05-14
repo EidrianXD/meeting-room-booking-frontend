@@ -40,14 +40,13 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { IconLogout } from "@tabler/icons-vue";
 import BaseButton from "@/shared/components/BaseButton.vue";
 import { useTheme } from "@/shared/composables/useTheme";
-import { TOKEN_STORAGE_KEY } from "@/shared/http";
+import { useAuth } from "@/features/auth/composables/useAuth";
 
-const router = useRouter();
 const { isDark, toggleDark } = useTheme();
+const { logout } = useAuth();
 
 const navLinks = [
   { name: "rooms", label: "Salas" },
@@ -56,9 +55,7 @@ const navLinks = [
 ];
 
 function onLogout() {
-  // O auth.store da Etapa 5 vai assumir essa lógica; por ora limpamos a chave que o guard observa.
-  if (typeof window !== "undefined") window.localStorage.removeItem(TOKEN_STORAGE_KEY);
-  void router.replace({ name: "login" });
+  void logout();
 }
 </script>
 
