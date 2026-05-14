@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "preserve",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
+    "allowJs": true,
+    "noEmit": true,
+    "sourceMap": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "src/*": ["./src/*"],
+      "boot/*": ["./src/boot/*"],
+      "components/*": ["./src/components/*"],
+      "layouts/*": ["./src/layouts/*"],
+      "pages/*": ["./src/pages/*"],
+      "stores/*": ["./src/stores/*"],
+      "#q-app/wrappers": ["./node_modules/@quasar/app-vite/types/app-wrappers.d.ts"],
+      "#q-app/*": ["./node_modules/@quasar/app-vite/types/*"]
+    },
+    "types": ["node", "@quasar/app-vite"]
+  },
+  "include": ["src/**/*", "tests/**/*", "quasar.config.ts"],
+  "exclude": ["node_modules", "dist", ".quasar"]
+}
