@@ -542,13 +542,13 @@ O FullCalendar usa suas próprias variáveis CSS. O override é feito em `tokens
 
 ### Etapa 8 — Feature: calendar
 
-- [ ] Instalar e configurar FullCalendar (`@fullcalendar/vue3`, `daygrid`, `timegrid`, `interaction`)
-- [ ] Adicionar override das variáveis CSS do FullCalendar em `tokens.dark.css` para dark mode
-- [ ] Implementar `useCalendar.ts` mapeando `Booking[]` para eventos do FullCalendar
-- [ ] Implementar `CalendarView.vue` com views mês/semana/dia e eventos coloridos por sala
-- [ ] Implementar clique em evento exibindo detalhes da reserva
-- [ ] Implementar clique em slot vazio abrindo `BookingForm` com data pré-preenchida
-- [ ] Implementar `CalendarPage.vue`
+- [x] Instalar e configurar FullCalendar (`@fullcalendar/vue3`, `daygrid`, `timegrid`, `interaction`)
+- [x] Adicionar override das variáveis CSS do FullCalendar em `tokens.dark.css` para dark mode
+- [x] Implementar `useCalendar.ts` mapeando `Booking[]` para eventos do FullCalendar
+- [x] Implementar `CalendarView.vue` com views mês/semana/dia e eventos coloridos por sala
+- [x] Implementar clique em evento exibindo detalhes da reserva
+- [x] Implementar clique em slot vazio abrindo `BookingForm` com data pré-preenchida
+- [x] Implementar `CalendarPage.vue`
 
 ### Etapa 9 — Testes unitários
 

@@ -70,9 +70,15 @@ interface Props {
   modelValue: boolean;
   rooms: Room[];
   initialRoomId?: string;
+  initialStart?: string;
+  initialEnd?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), { initialRoomId: "" });
+const props = withDefaults(defineProps<Props>(), {
+  initialRoomId: "",
+  initialStart: "",
+  initialEnd: "",
+});
 const emit = defineEmits<{
   "update:modelValue": [open: boolean];
   created: [];
@@ -111,8 +117,8 @@ watch(
 function resetForm() {
   form.title = "";
   form.roomId = props.initialRoomId ?? "";
-  form.startTime = "";
-  form.endTime = "";
+  form.startTime = props.initialStart ?? "";
+  form.endTime = props.initialEnd ?? "";
   errors.title = null;
   errors.roomId = null;
   errors.startTime = null;
