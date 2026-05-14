@@ -526,10 +526,10 @@ O FullCalendar usa suas próprias variáveis CSS. O override é feito em `tokens
 
 ### Etapa 6 — Feature: rooms
 
-- [ ] Implementar `room.service.ts` com `GET /rooms`
-- [ ] Implementar `room.store.ts` com lista de salas
-- [ ] Implementar `RoomCard.vue` com nome da sala e botão "Reservar"
-- [ ] Implementar `RoomsPage.vue` carregando e exibindo os cards
+- [x] Implementar `room.service.ts` com `GET /rooms`
+- [x] Implementar `room.store.ts` com lista de salas
+- [x] Implementar `RoomCard.vue` com nome da sala e botão "Reservar"
+- [x] Implementar `RoomsPage.vue` carregando e exibindo os cards
 
 ### Etapa 7 — Feature: bookings
 
