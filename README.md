@@ -533,12 +533,12 @@ O FullCalendar usa suas próprias variáveis CSS. O override é feito em `tokens
 
 ### Etapa 7 — Feature: bookings
 
-- [ ] Implementar `booking.service.ts` com `GET`, `POST` e `DELETE /bookings`
-- [ ] Implementar `booking.store.ts` com lista de reservas
-- [ ] Implementar `useBookings.ts` com validações de formulário e CRUD
-- [ ] Implementar `BookingCard.vue` com botão de cancelar condicional (somente dono)
-- [ ] Implementar `BookingForm.vue` com validações locais e tratamento de erro de conflito
-- [ ] Implementar `BookingsPage.vue` com lista e botão de nova reserva
+- [x] Implementar `booking.service.ts` com `GET`, `POST` e `DELETE /bookings`
+- [x] Implementar `booking.store.ts` com lista de reservas
+- [x] Implementar `useBookings.ts` com validações de formulário e CRUD
+- [x] Implementar `BookingCard.vue` com botão de cancelar condicional (somente dono)
+- [x] Implementar `BookingForm.vue` com validações locais e tratamento de erro de conflito
+- [x] Implementar `BookingsPage.vue` com lista e botão de nova reserva
 
 ### Etapa 8 — Feature: calendar
 
