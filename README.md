@@ -502,12 +502,12 @@ O FullCalendar usa suas próprias variáveis CSS. O override é feito em `tokens
 
 ### Etapa 3 — Shared: componentes base
 
-- [ ] Implementar `BaseButton.vue` (variantes + tamanhos + disabled)
-- [ ] Implementar `BaseInput.vue` (estados: default, focus, error, disabled)
-- [ ] Implementar `BaseCard.vue` (padrão + variante acento)
-- [ ] Implementar `AppBadge.vue` (5 variantes semânticas + dot)
-- [ ] Implementar `shared/composables/useTheme.ts` com toggle e persistência em `localStorage`
-- [ ] Implementar `shared/http.ts` — instância Axios com `baseURL` e interceptor de token
+- [x] Implementar `BaseButton.vue` (variantes + tamanhos + disabled)
+- [x] Implementar `BaseInput.vue` (estados: default, focus, error, disabled)
+- [x] Implementar `BaseCard.vue` (padrão + variante acento)
+- [x] Implementar `AppBadge.vue` (5 variantes semânticas + dot)
+- [x] Implementar `shared/composables/useTheme.ts` com toggle e persistência em `localStorage`
+- [x] Implementar `shared/http.ts` — instância Axios com `baseURL` e interceptor de token
 
 ### Etapa 4 — Router e navigation guard
 
