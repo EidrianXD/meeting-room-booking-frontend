@@ -493,12 +493,12 @@ O FullCalendar usa suas próprias variáveis CSS. O override é feito em `tokens
 
 ### Etapa 2 — Design system
 
-- [ ] Criar `shared/design-system/tokens.css` com variáveis de cor (light), espaçamento e radius
-- [ ] Criar `shared/design-system/tokens.dark.css` com overrides escopados em `.body--dark`
-- [ ] Criar `shared/design-system/typography.css` com a escala tipográfica
-- [ ] Criar `shared/design-system/quasar-theme.scss` com override das variáveis do Quasar
-- [ ] Importar os arquivos no `main.ts` / `quasar.config.ts`
-- [ ] Criar `src/boot/theme.ts` para inicializar o tema com a preferência salva (somente no cliente)
+- [x] Criar `shared/design-system/tokens.css` com variáveis de cor (light), espaçamento e radius
+- [x] Criar `shared/design-system/tokens.dark.css` com overrides escopados em `.body--dark`
+- [x] Criar `shared/design-system/typography.css` com a escala tipográfica
+- [x] Criar `shared/design-system/quasar-theme.scss` com override das variáveis do Quasar
+- [x] Importar os arquivos no `main.ts` / `quasar.config.ts`
+- [x] Criar `src/boot/theme.ts` para inicializar o tema com a preferência salva (somente no cliente)
 
 ### Etapa 3 — Shared: componentes base
 

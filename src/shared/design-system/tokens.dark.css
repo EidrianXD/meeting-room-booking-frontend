@@ -1,0 +1,37 @@
+/* Overrides do design system para dark mode.
+ * Escopados em .body--dark — classe aplicada automaticamente pelo Quasar Dark plugin.
+ * Como tudo é via var(--token), nenhum componente precisa de lógica condicional de cor. */
+
+.body--dark {
+  /* Brand — clareados para contraste em fundo escuro */
+  --brand-700: #3a78c0;
+  --brand-600: #4d8fd4;
+  --brand-200: #1e3a5f;
+  --brand-50: #0f2035;
+
+  /* Neutrals invertidos */
+  --neutral-900: #f1f3f5;
+  --neutral-700: #ced4da;
+  --neutral-500: #6c757d;
+  --neutral-300: #343a40;
+  --neutral-100: #1e2124;
+
+  /* Surfaces */
+  --surface: #212529;
+  --page-bg: #161a1d;
+
+  /* Semantic — mais luminosos em dark */
+  --success: #2ecc71;
+  --warning: #f5a623;
+  --danger: #e05252;
+  --info: #4d8fd4;
+}
+
+/* FullCalendar respeita seus próprios CSS vars — mapeamos para nossos tokens. */
+.body--dark .fc {
+  --fc-border-color: var(--neutral-300);
+  --fc-page-bg-color: var(--surface);
+  --fc-neutral-bg-color: var(--neutral-100);
+  --fc-today-bg-color: var(--brand-50);
+  color: var(--neutral-900);
+}

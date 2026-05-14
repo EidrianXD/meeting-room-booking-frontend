@@ -1,0 +1,45 @@
+// Override do tema Quasar para alinhar componentes nativos ao design system.
+//
+// As variáveis SCSS ($primary, $secondary, $positive, $negative, $warning) são definidas em
+// `src/css/quasar.variables.scss` (compile-time, exigência do Quasar). Aqui aplicamos overrides
+// CSS adicionais que precisam reagir ao dark mode — usando nossos tokens var() para que a
+// adaptação aconteça automaticamente via .body--dark.
+
+// Cores semânticas via CSS vars (reagem ao dark mode)
+.text-primary { color: var(--brand-600) !important; }
+.text-secondary { color: var(--neutral-700) !important; }
+.text-positive { color: var(--success) !important; }
+.text-negative { color: var(--danger) !important; }
+.text-warning { color: var(--warning) !important; }
+.text-info { color: var(--info) !important; }
+
+.bg-primary { background-color: var(--brand-600) !important; }
+.bg-secondary { background-color: var(--neutral-700) !important; }
+.bg-positive { background-color: var(--success) !important; }
+.bg-negative { background-color: var(--danger) !important; }
+.bg-warning { background-color: var(--warning) !important; }
+.bg-info { background-color: var(--info) !important; }
+
+// Page background alinhado ao token
+.q-page,
+.q-layout {
+  background-color: var(--page-bg);
+  color: var(--neutral-900);
+}
+
+// Cards Quasar usam nossa superfície
+.q-card {
+  background-color: var(--surface);
+  color: var(--neutral-900);
+  border-radius: var(--radius-lg);
+}
+
+// Inputs / fields — bordas via nosso token
+.q-field--outlined .q-field__control {
+  border-radius: var(--radius-md);
+}
+
+// Botões — radius do design system
+.q-btn {
+  border-radius: var(--radius-md);
+}

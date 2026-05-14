@@ -1,13 +1,8 @@
 // Estilos globais da aplicação.
-// Os tokens do design system entram aqui na Etapa 2.
+// Ordem importa: tokens primeiro, depois overrides dark, depois tipografia,
+// e por último o tema Quasar (que consome os tokens via var()).
 
-body {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
-}
+@import "../shared/design-system/tokens.css";
+@import "../shared/design-system/tokens.dark.css";
+@import "../shared/design-system/typography.css";
+@import "../shared/design-system/quasar-theme.scss";
