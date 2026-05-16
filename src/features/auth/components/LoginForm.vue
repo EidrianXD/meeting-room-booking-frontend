@@ -30,6 +30,7 @@ import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BaseButton from "@/shared/components/BaseButton.vue";
 import BaseInput from "@/shared/components/BaseInput.vue";
+import { toApiError } from "@/shared/api-error";
 import { useAuth } from "../composables/useAuth";
 
 const { login } = useAuth();
@@ -63,18 +64,16 @@ async function onSubmit() {
     const redirect = typeof route.query.redirect === "string" ? route.query.redirect : null;
     await router.replace(redirect ?? { name: "rooms" });
   } catch (err: unknown) {
-    submitError.value = extractErrorMessage(err);
+    const apiError = toApiError(err, "Não foi possível entrar.");
+    // Para 401 no login = credenciais inválidas. Sobrescrevemos a mensagem global
+    // do interceptor com algo específico do contexto.
+    submitError.value =
+      apiError.status === 401 ? "Usuário ou senha incorretos." : apiError.message;
+    if (apiError.fieldErrors.username) errors.username = apiError.fieldErrors.username;
+    if (apiError.fieldErrors.password) errors.password = apiError.fieldErrors.password;
   } finally {
     loading.value = false;
   }
-}
-
-function extractErrorMessage(err: unknown): string {
-  if (typeof err === "object" && err !== null && "response" in err) {
-    const response = (err as { response?: { data?: { message?: string } } }).response;
-    if (response?.data?.message) return response.data.message;
-  }
-  return "Não foi possível entrar. Verifique suas credenciais.";
 }
 </script>
 

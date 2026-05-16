@@ -6,7 +6,7 @@
         <p class="text-caption">Selecione uma sala disponível para criar uma reserva.</p>
       </header>
 
-      <p v-if="loading" class="text-body">Carregando salas…</p>
+      <p v-if="loading" class="text-body state-message">Carregando salas…</p>
 
       <BaseCard v-else-if="error" accent="danger">
         <p class="text-body">{{ error }}</p>
@@ -15,7 +15,13 @@
         </template>
       </BaseCard>
 
-      <p v-else-if="rooms.length === 0" class="text-body">Nenhuma sala disponível no momento.</p>
+      <div v-else-if="rooms.length === 0" class="empty-state">
+        <span class="empty-state__icon">
+          <IconBuilding :size="28" stroke-width="1.75" />
+        </span>
+        <p class="text-heading-md empty-state__title">Nenhuma sala disponível</p>
+        <p class="text-caption">Volte mais tarde ou consulte o administrador.</p>
+      </div>
 
       <div v-else class="rooms-grid">
         <RoomCard
@@ -33,6 +39,7 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+import { IconBuilding } from "@tabler/icons-vue";
 import BaseButton from "@/shared/components/BaseButton.vue";
 import BaseCard from "@/shared/components/BaseCard.vue";
 import RoomCard from "@/features/rooms/components/RoomCard.vue";
@@ -76,5 +83,40 @@ function onReserve(room: Room) {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--space-4);
+}
+
+.state-message {
+  color: var(--neutral-700);
+  text-align: center;
+  padding: var(--space-5) 0;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-7) var(--space-5);
+  background-color: var(--surface);
+  border: 1px dashed var(--neutral-300);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.empty-state__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--brand-50);
+  color: var(--brand-600);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state__title {
+  margin: 0;
+  color: var(--neutral-900);
 }
 </style>

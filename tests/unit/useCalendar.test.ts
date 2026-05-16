@@ -21,11 +21,18 @@ describe("useCalendar.bookingsToEvents", () => {
     expect(events).toHaveLength(1);
     const ev = events[0]!;
     expect(ev.id).toBe(sample.id);
-    expect(ev.title).toBe(sample.title);
+    expect(ev.title).toBe(`${sample.title} · ${sample.roomName}`);
     expect(ev.start).toBe(sample.startTime);
     expect(ev.end).toBe(sample.endTime);
     expect(ev.backgroundColor).toBeDefined();
     expect(ev.extendedProps).toEqual({ booking: sample });
+  });
+
+  it("usa só o título quando não há roomName", () => {
+    const { bookingsToEvents } = useCalendar();
+    const without = { ...sample, roomName: undefined };
+    const events = bookingsToEvents([without], ["r1"]);
+    expect(events[0]!.title).toBe(sample.title);
   });
 
   it("aplica a mesma cor para reservas da mesma sala", () => {

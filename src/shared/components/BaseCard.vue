@@ -31,12 +31,13 @@ defineProps<Props>();
 .base-card {
   background-color: var(--surface);
   color: var(--neutral-900);
-  border: 0.5px solid var(--neutral-300);
+  border: 1px solid var(--neutral-300);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
 }
 
 .base-card--accent-brand { border-left: 4px solid var(--brand-600); }

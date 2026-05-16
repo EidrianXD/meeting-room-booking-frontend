@@ -100,7 +100,8 @@ function onInput(event: Event) {
   border: 1px solid var(--neutral-300);
   border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-3);
-  height: 36px;
+  height: 40px;
+  min-width: 0;
   transition:
     border-color 120ms ease,
     box-shadow 120ms ease,

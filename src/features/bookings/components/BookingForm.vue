@@ -1,5 +1,10 @@
 <template>
-  <q-dialog :model-value="modelValue" persistent @update:model-value="emit('update:modelValue', $event)">
+  <q-dialog
+    :model-value="modelValue"
+    persistent
+    :maximized="$q.screen.lt.sm"
+    @update:model-value="emit('update:modelValue', $event)"
+  >
     <div class="booking-form-dialog">
       <header class="booking-form-dialog__header">
         <h2 class="text-heading-lg">Nova reserva</h2>
@@ -60,15 +65,23 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from "vue";
+import { useQuasar } from "quasar";
 import { IconX } from "@tabler/icons-vue";
 import BaseButton from "@/shared/components/BaseButton.vue";
 import BaseInput from "@/shared/components/BaseInput.vue";
-import type { Room } from "@/features/rooms/services/room.service";
+import { toApiError } from "@/shared/api-error";
 import { useBookings, type BookingFormErrors } from "../composables/useBookings";
+
+const $q = useQuasar();
+
+interface RoomOption {
+  id: string;
+  name: string;
+}
 
 interface Props {
   modelValue: boolean;
-  rooms: Room[];
+  rooms: RoomOption[];
   initialRoomId?: string;
   initialStart?: string;
   initialEnd?: string;
@@ -142,18 +155,19 @@ async function onSubmit() {
     emit("created");
     close();
   } catch (err: unknown) {
-    submitError.value = extractErrorMessage(err);
+    const apiError = toApiError(err, "Não foi possível criar a reserva.");
+    // Para conflito de horário (409), o backend já manda a mensagem semântica
+    // certa em `error`; só repassamos. Para 400 com `details`, distribuímos as
+    // mensagens nos campos correspondentes.
+    submitError.value = apiError.message;
+    const fe = apiError.fieldErrors;
+    if (fe.title) errors.title = fe.title;
+    if (fe.roomId) errors.roomId = fe.roomId;
+    if (fe.startTime) errors.startTime = fe.startTime;
+    if (fe.endTime) errors.endTime = fe.endTime;
   } finally {
     submitting.value = false;
   }
-}
-
-function extractErrorMessage(err: unknown): string {
-  if (typeof err === "object" && err !== null && "response" in err) {
-    const response = (err as { response?: { data?: { message?: string } } }).response;
-    if (response?.data?.message) return response.data.message;
-  }
-  return "Não foi possível criar a reserva.";
 }
 </script>
 
@@ -168,6 +182,14 @@ function extractErrorMessage(err: unknown): string {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+}
+
+/* Em modo maximizado (mobile), preenche a tela e remove o radius. */
+:global(.q-dialog__inner--maximized) .booking-form-dialog {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 0;
+  padding: var(--space-4);
 }
 
 .booking-form-dialog__header {

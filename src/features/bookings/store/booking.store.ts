@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { toApiError } from "@/shared/api-error";
 import { bookingService, type Booking } from "../services/booking.service";
 
 export const useBookingStore = defineStore("bookings", () => {
@@ -13,7 +14,7 @@ export const useBookingStore = defineStore("bookings", () => {
     try {
       bookings.value = await bookingService.list();
     } catch (err: unknown) {
-      error.value = extractErrorMessage(err, "Não foi possível carregar as reservas.");
+      error.value = toApiError(err, "Não foi possível carregar as reservas.").message;
       bookings.value = [];
     } finally {
       loading.value = false;
@@ -30,11 +31,3 @@ export const useBookingStore = defineStore("bookings", () => {
 
   return { bookings, loading, error, fetchAll, addBooking, removeBooking };
 });
-
-function extractErrorMessage(err: unknown, fallback: string): string {
-  if (typeof err === "object" && err !== null && "response" in err) {
-    const response = (err as { response?: { data?: { message?: string } } }).response;
-    if (response?.data?.message) return response.data.message;
-  }
-  return fallback;
-}

@@ -569,42 +569,58 @@ Escritos com Vitest + `@vue/test-utils` após os composables estarem implementad
 
 ### Etapa 10 — Finalização
 
-- [ ] Revisar consistência visual em todas as páginas com o design system
-- [ ] Validar dark mode em todas as páginas — verificar contraste, bordas e fundos
-- [ ] Garantir que nenhuma cor está hardcoded nos componentes (apenas `var()`)
-- [ ] Garantir que nenhuma lógica de negócio está nas pages ou nos componentes
-- [ ] Confirmar que todos os testes passam (`npm test`)
-- [ ] Confirmar que a regra de dependência entre features está sendo respeitada
-- [ ] Validar layout em mobile, tablet e desktop usando o grid system do Quasar
-- [ ] Atualizar README com instruções definitivas de como rodar localmente
+- [x] Revisar consistência visual em todas as páginas com o design system
+- [x] Validar dark mode em todas as páginas — verificar contraste, bordas e fundos
+- [x] Garantir que nenhuma cor está hardcoded nos componentes (apenas `var()`)
+- [x] Garantir que nenhuma lógica de negócio está nas pages ou nos componentes
+- [x] Confirmar que todos os testes passam (`npm test`)
+- [x] Confirmar que a regra de dependência entre features está sendo respeitada
+- [x] Validar layout em mobile, tablet e desktop usando o grid system do Quasar
+- [x] Atualizar README com instruções definitivas de como rodar localmente
 - [ ] Commitar com histórico organizado por etapa
 
 ---
 
 ## Como rodar localmente
 
-> O backend precisa estar rodando em `http://localhost:3000` antes de subir o frontend. Veja [../backend/README.md](../backend/README.md).
+### Pré-requisitos
+
+- Node 20 ou 22 (ver campo `engines` no `package.json`).
+- Backend rodando em `http://localhost:3000` antes de subir o frontend. Veja [../backend/README.md](../backend/README.md).
+- O backend usa CORS via env `CORS_ORIGINS` (lista CSV de origins permitidos). Em dev, deixe vazio para liberar qualquer origin, ou aponte explicitamente para os origins do frontend, ex.: `CORS_ORIGINS=http://localhost:9000,http://192.168.15.3:9000`.
+
+### Comandos
 
 ```bash
-# Instalar dependências
+# 1. Instalar dependências
 npm install
 
-# Configurar variáveis de ambiente
+# 2. Configurar variáveis de ambiente
 cp .env.example .env
-# Conferir VITE_API_BASE_URL=http://localhost:3000
+# Confira VITE_API_BASE_URL — padrão http://localhost:3000
 
-# Rodar em desenvolvimento (Vite com hot reload)
+# 3. Rodar em desenvolvimento (Vite com hot reload, porta 9000)
 npm run dev
 
-# Rodar testes
+# 4. Rodar testes
 npm test
 
-# Rodar testes em watch mode
+# 5. Rodar testes em watch mode
 npm run test:watch
 
-# Build de produção (SPA estática em /dist/spa)
+# 6. Typecheck
+npm run lint
+
+# 7. Build de produção (SPA estática em /dist/spa)
 npm run build
 ```
+
+### Acessar pelo celular na mesma rede
+
+1. Descubra o IP da sua máquina (`ipconfig` no Windows, `ifconfig` em Unix).
+2. Acesse `http://<seu-ip>:9000` pelo celular.
+3. Altere o `.env` do frontend para `VITE_API_BASE_URL=http://<seu-ip>:3000` e reinicie o `npm run dev` — caso contrário o celular tenta chamar `localhost:3000` (que do celular = ele mesmo).
+4. Adicione o origin do celular em `CORS_ORIGINS` no `.env` do backend.
 
 ---
 

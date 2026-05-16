@@ -54,7 +54,12 @@ export function useBookings() {
   }
 
   async function create(payload: CreateBookingPayload) {
-    const booking = await bookingService.create(payload);
+    const normalized: CreateBookingPayload = {
+      ...payload,
+      startTime: toIsoUtc(payload.startTime),
+      endTime: toIsoUtc(payload.endTime),
+    };
+    const booking = await bookingService.create(normalized);
     store.addBooking(booking);
     return booking;
   }
@@ -62,6 +67,14 @@ export function useBookings() {
   async function cancel(bookingId: string) {
     await bookingService.cancel(bookingId);
     store.removeBooking(bookingId);
+  }
+
+  // O input `datetime-local` retorna "YYYY-MM-DDTHH:mm" (sem timezone), que o
+  // construtor de Date interpreta como horário local. Convertendo para ISO UTC
+  // damos ao backend uma string ISO-8601 estrita (zod `.datetime()`).
+  function toIsoUtc(value: string): string {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? value : date.toISOString();
   }
 
   return {

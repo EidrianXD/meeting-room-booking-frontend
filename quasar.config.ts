@@ -2,7 +2,7 @@ import { defineConfig } from "#q-app/wrappers";
 import { fileURLToPath } from "node:url";
 
 export default defineConfig(() => ({
-  boot: ["pinia", "auth", "theme"],
+  boot: ["pinia", "i18n", "auth", "theme"],
 
   css: ["app.scss"],
 

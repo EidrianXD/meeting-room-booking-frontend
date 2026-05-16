@@ -3,7 +3,7 @@
     <div class="booking-card__top">
       <div class="booking-card__title-block">
         <h3 class="text-heading-md booking-card__title">{{ booking.title }}</h3>
-        <p v-if="booking.roomName" class="text-caption">{{ booking.roomName }}</p>
+        <AppBadge v-if="roomLabel" variant="info" :icon="IconBuilding">{{ roomLabel }}</AppBadge>
       </div>
       <AppBadge v-if="isPast" variant="neutral">Encerrada</AppBadge>
       <AppBadge v-else-if="isOngoing" variant="info" dot>Em andamento</AppBadge>
@@ -34,22 +34,26 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { IconClock, IconTrash, IconUsers } from "@tabler/icons-vue";
+import { IconBuilding, IconClock, IconTrash, IconUsers } from "@tabler/icons-vue";
 import AppBadge from "@/shared/components/AppBadge.vue";
 import BaseButton from "@/shared/components/BaseButton.vue";
 import BaseCard from "@/shared/components/BaseCard.vue";
-import { useAuth } from "@/features/auth/composables/useAuth";
 import type { Booking } from "../services/booking.service";
 
-const props = defineProps<{ booking: Booking }>();
-const emit = defineEmits<{ cancel: [booking: Booking] }>();
+interface Props {
+  booking: Booking;
+  currentUserId?: string | null;
+}
 
-const { user } = useAuth();
+const props = withDefaults(defineProps<Props>(), { currentUserId: null });
+const emit = defineEmits<{ cancel: [booking: Booking] }>();
 
 const canCancel = computed(() => {
   if (isPast.value) return false;
-  return user.value?.id === props.booking.userId;
+  return props.currentUserId === props.booking.userId;
 });
+
+const roomLabel = computed(() => props.booking.roomName ?? `Sala ${props.booking.roomId}`);
 
 const isPast = computed(() => new Date(props.booking.endTime).getTime() < Date.now());
 const isOngoing = computed(() => {

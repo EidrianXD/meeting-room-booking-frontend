@@ -14,7 +14,7 @@
         </BaseButton>
       </header>
 
-      <p v-if="loading" class="text-body">Carregando reservas…</p>
+      <p v-if="loading" class="text-body state-message">Carregando reservas…</p>
 
       <BaseCard v-else-if="error" accent="danger">
         <p class="text-body">{{ error }}</p>
@@ -23,13 +23,20 @@
         </template>
       </BaseCard>
 
-      <p v-else-if="bookings.length === 0" class="text-body">Nenhuma reserva cadastrada.</p>
+      <div v-else-if="bookings.length === 0" class="empty-state">
+        <span class="empty-state__icon">
+          <IconClock :size="28" stroke-width="1.75" />
+        </span>
+        <p class="text-heading-md empty-state__title">Nenhuma reserva ainda</p>
+        <p class="text-caption">Crie sua primeira reserva clicando em "Nova reserva".</p>
+      </div>
 
       <div v-else class="bookings-list">
         <BookingCard
-          v-for="booking in bookings"
+          v-for="booking in enrichedBookings"
           :key="booking.id"
           :booking="booking"
+          :current-user-id="user?.id ?? null"
           @cancel="onCancel"
         />
       </div>
@@ -45,17 +52,19 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 import { storeToRefs } from "pinia";
-import { IconCalendarPlus } from "@tabler/icons-vue";
+import { IconCalendarPlus, IconClock } from "@tabler/icons-vue";
 import BaseButton from "@/shared/components/BaseButton.vue";
 import BaseCard from "@/shared/components/BaseCard.vue";
 import BookingCard from "@/features/bookings/components/BookingCard.vue";
 import BookingForm from "@/features/bookings/components/BookingForm.vue";
 import { useBookings } from "@/features/bookings/composables/useBookings";
 import { useRoomStore } from "@/features/rooms/store/room.store";
+import { useAuth } from "@/features/auth/composables/useAuth";
+import { toApiError } from "@/shared/api-error";
 import type { Booking } from "@/features/bookings/services/booking.service";
 
 const $q = useQuasar();
@@ -63,8 +72,19 @@ const route = useRoute();
 const router = useRouter();
 
 const { bookings, loading, error, fetchAll, cancel } = useBookings();
+const { user } = useAuth();
 const roomStore = useRoomStore();
 const { rooms } = storeToRefs(roomStore);
+
+// Enriquece cada reserva com o nome da sala, fazendo o join no client com o
+// `useRoomStore`. O backend devolve só `roomId` — esse mapeamento é necessário
+// para BookingCard exibir "Sala A" em vez de só o ID.
+const enrichedBookings = computed(() =>
+  bookings.value.map((booking) => ({
+    ...booking,
+    roomName: booking.roomName ?? rooms.value.find((r) => r.id === booking.roomId)?.name,
+  })),
+);
 
 const formOpen = ref(false);
 const preselectedRoomId = ref<string>("");
@@ -94,17 +114,9 @@ async function onCancel(booking: Booking) {
     await cancel(booking.id);
     $q.notify({ message: "Reserva cancelada", color: "positive", position: "top" });
   } catch (err: unknown) {
-    const message = extractErrorMessage(err);
-    $q.notify({ message, color: "negative", position: "top" });
+    const apiError = toApiError(err, "Não foi possível cancelar a reserva.");
+    $q.notify({ message: apiError.message, color: "negative", position: "top" });
   }
-}
-
-function extractErrorMessage(err: unknown): string {
-  if (typeof err === "object" && err !== null && "response" in err) {
-    const response = (err as { response?: { data?: { message?: string } } }).response;
-    if (response?.data?.message) return response.data.message;
-  }
-  return "Não foi possível cancelar a reserva.";
 }
 </script>
 
@@ -129,5 +141,44 @@ function extractErrorMessage(err: unknown): string {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: var(--space-4);
+}
+
+.state-message {
+  color: var(--neutral-700);
+  text-align: center;
+  padding: var(--space-5) 0;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-7) var(--space-5);
+  background-color: var(--surface);
+  border: 1px dashed var(--neutral-300);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.empty-state__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--brand-50);
+  color: var(--brand-600);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state__title {
+  margin: 0;
+  color: var(--neutral-900);
+}
+
+@media (max-width: 599px) {
+  .page-header { gap: var(--space-3); }
 }
 </style>

@@ -1,9 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { TOKEN_STORAGE_KEY } from "@/shared/http";
+import { TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from "@/shared/http";
 import type { AuthUser } from "../services/auth.service";
-
-const USER_STORAGE_KEY = "auth-user";
 
 function readPersistedUser(): AuthUser | null {
   if (typeof window === "undefined") return null;
@@ -54,5 +52,3 @@ export const useAuthStore = defineStore("auth", () => {
 
   return { token, user, isAuthenticated, setSession, clearSession, hydrate };
 });
-
-export { USER_STORAGE_KEY };

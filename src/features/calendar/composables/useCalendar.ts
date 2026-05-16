@@ -1,34 +1,48 @@
 import type { EventInput } from "@fullcalendar/core";
-import type { Booking } from "@/features/bookings/services/booking.service";
 
-// Paleta de acentos para diferenciar salas no calendário. Mapeada por índice
-// para garantir cor estável entre renders sem depender da ordem do backend.
+export interface CalendarBooking {
+  id: string;
+  title: string;
+  roomId: string;
+  roomName?: string;
+  startTime: string;
+  endTime: string;
+}
+
+// Paleta de acentos baseada em tokens do design system. Passamos `var(--token)`
+// para o FullCalendar — assim as cores adaptam automaticamente ao dark mode.
 const ROOM_PALETTE = [
-  { background: "#1a56a0", text: "#ffffff" }, // brand
-  { background: "#1a7a4a", text: "#ffffff" }, // success
-  { background: "#8a5700", text: "#ffffff" }, // warning
-  { background: "#b91c1c", text: "#ffffff" }, // danger
-  { background: "#5a4ec5", text: "#ffffff" }, // extra (caso entrem mais salas)
-];
+  "var(--brand-600)",
+  "var(--success)",
+  "var(--warning)",
+  "var(--danger)",
+  "var(--info)",
+] as const;
 
-function colorForRoom(roomId: string, roomOrder: string[]) {
+function colorForRoom(roomId: string, roomOrder: string[]): string {
   const idx = roomOrder.indexOf(roomId);
   const slot = idx >= 0 ? idx % ROOM_PALETTE.length : 0;
   return ROOM_PALETTE[slot]!;
 }
 
 export function useCalendar() {
-  function bookingsToEvents(bookings: Booking[], roomOrder: string[] = []): EventInput[] {
+  function bookingsToEvents<T extends CalendarBooking>(
+    bookings: T[],
+    roomOrder: string[] = [],
+  ): EventInput[] {
     return bookings.map((booking) => {
       const color = colorForRoom(booking.roomId, roomOrder);
+      const label = booking.roomName
+        ? `${booking.title} · ${booking.roomName}`
+        : booking.title;
       return {
         id: booking.id,
-        title: booking.title,
+        title: label,
         start: booking.startTime,
         end: booking.endTime,
-        backgroundColor: color.background,
-        borderColor: color.background,
-        textColor: color.text,
+        backgroundColor: color,
+        borderColor: color,
+        textColor: "#ffffff",
         extendedProps: { booking },
       };
     });

@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { toApiError } from "@/shared/api-error";
 import { roomService, type Room } from "../services/room.service";
 
 export const useRoomStore = defineStore("rooms", () => {
@@ -13,7 +14,7 @@ export const useRoomStore = defineStore("rooms", () => {
     try {
       rooms.value = await roomService.list();
     } catch (err: unknown) {
-      error.value = extractErrorMessage(err);
+      error.value = toApiError(err, "Não foi possível carregar as salas.").message;
       rooms.value = [];
     } finally {
       loading.value = false;
@@ -22,11 +23,3 @@ export const useRoomStore = defineStore("rooms", () => {
 
   return { rooms, loading, error, fetchRooms };
 });
-
-function extractErrorMessage(err: unknown): string {
-  if (typeof err === "object" && err !== null && "response" in err) {
-    const response = (err as { response?: { data?: { message?: string } } }).response;
-    if (response?.data?.message) return response.data.message;
-  }
-  return "Não foi possível carregar as salas.";
-}
