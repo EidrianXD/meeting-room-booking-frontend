@@ -57,7 +57,11 @@ COPY --from=build /app/dist/spa /usr/share/nginx/html
 
 EXPOSE 80
 
+# Usa 127.0.0.1 explicitamente em vez de localhost. O `wget` do BusyBox
+# (base do nginx:alpine) prefere IPv6 quando há entrada para `localhost`
+# em /etc/hosts, mas o nginx escuta apenas em 0.0.0.0:80 (IPv4). Com
+# `localhost`, o healthcheck recebe "Connection refused".
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost/healthz || exit 1
+  CMD wget --quiet --tries=1 --spider http://127.0.0.1/healthz || exit 1
 
 # nginx:alpine já tem o CMD padrão (`nginx -g 'daemon off;'`); nada a sobrescrever.
