@@ -43,6 +43,11 @@ FROM nginx:${NGINX_VERSION}-alpine AS runtime
 
 # wget já vem na imagem base do nginx:alpine — usado pelo HEALTHCHECK.
 
+# Aplica os patches de segurança disponíveis na base Alpine (necessário
+# para passar no quality gate do Trivy: as imagens nginx:alpine costumam
+# ficar atrás dos repositórios em libs como openssl, libpng, libxml2).
+RUN apk upgrade --no-cache
+
 # Substitui a config padrão pelo nosso server block (SPA + proxy /api).
 RUN rm -f /etc/nginx/conf.d/default.conf
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
