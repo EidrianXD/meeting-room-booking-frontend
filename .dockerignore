@@ -1,0 +1,41 @@
+# Dependências e artefatos locais
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build
+dist
+.quasar
+.output
+coverage
+
+# Variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Próprio Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Testes (não vão para a imagem de runtime)
+tests
+
+# Editores / OS
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Docs e ferramentas locais
+README.md
+.claude
